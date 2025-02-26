@@ -29,11 +29,15 @@ router.get('/status/:id',volunteerController.getVolunteerStatus);
 // New route for assigning volunteers to requests
 router.post('/assign-volunteer', adminController.assignVolunteerToRequest);
 
+// Decline AFI request
+router.post('/decline-afi', adminController.declineAfiRequest);
+
 //get assigned afis
 router.get('/assigned-afis/:id', volunteerController.getAssignedAFIs);
-
 
 //update assignment status
 router.put('/assigned-afis/:id',volunteerController.updateAssignmentStatus);
 
+//route to get distance matrix
+router.get('/nearby-volunteers/:afiId', adminController.getNearbyVolunteers);
 module.exports = router

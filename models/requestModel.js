@@ -47,7 +47,11 @@ const afiSchema = new mongoose.Schema({
     lng: {
         type: Number,
         required: true
-    }
+    },
+    declineNote: {
+        type: String,
+        default: ""
+    },
     
 })
 
