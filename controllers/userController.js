@@ -3,16 +3,17 @@ const jwt = require('jsonwebtoken')
 const afi = require("../models/requestModel");
 //register volunteer
 exports.registerVolunteer = async(req,res)=>{
-    const {name,email,password,phone,location,role} = req.body
+    const {name,email,password,phone,location,lat,lng} = req.body
     try{
         const existingVolunteer = await users.findOne({email})
         if(existingVolunteer){
             res.status(406).json("already exisiting volunteer.. please login")
         } else {
             const newVolunteer= new users({
-                name, email, password, phone, location, role:"volunteer"
+                name, email, password, phone, location, role:"volunteer",lat,lng
             })
             await newVolunteer.save()
+
             res.status(201).json(newVolunteer)
         }
     }catch(err){
@@ -39,10 +40,10 @@ exports.loginVolunteer = async(req,res)=>{
 
 //affected individual request
 exports.registerAfi = async(req,res)=>{
-    const {name,phone,email,location,description,role} = req.body
+    const {name,phone,email,location,description, lat, lng} = req.body
     try{
         const newAfi = new afi({
-            name,phone,email,location,description,role:"AFI",status:"pending"
+            name,phone,email,location,description,role:"AFI",status:"pending", lat, lng
         })
         await newAfi.save()
         res.status(201).json(newAfi)

@@ -39,6 +39,14 @@ const afiSchema = new mongoose.Schema({
     assignedDate: {
         type: Date,
         default: Date.now
+    },
+    lat: {
+        type: Number,
+        required: true
+    },
+    lng: {
+        type: Number,
+        required: true
     }
     
 })
