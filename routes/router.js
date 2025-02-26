@@ -30,5 +30,10 @@ router.get('/status/:id',volunteerController.getVolunteerStatus);
 router.post('/assign-volunteer', adminController.assignVolunteerToRequest);
 
 //get assigned afis
-router.get('/assigned-afis/:id',volunteerController.getAssignedAFIs);
+router.get('/assigned-afis/:id', volunteerController.getAssignedAFIs);
+
+
+//update assignment status
+router.put('/assigned-afis/:id',volunteerController.updateAssignmentStatus);
+
 module.exports = router
