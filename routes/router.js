@@ -2,6 +2,9 @@ const express = require("express");
 const userController = require("../controllers/userController");
 const adminController = require("../controllers/adminController");
 const volunteerController = require("../controllers/volunteerController");
+const emergencyServicesController = require("../controllers/emergencyServicesController");
+const authController = require("../controllers/authController");
+
 const jwtMiddleware = require("../middleware/jwtMiddleware");
 const router = new  express.Router();
 
@@ -40,4 +43,11 @@ router.put('/assigned-afis/:id',volunteerController.updateAssignmentStatus);
 
 //route to get distance matrix
 router.get('/nearby-volunteers/:afiId', adminController.getNearbyVolunteers);
+
+// Existing routes...
+router.get('/nearby-emergency-services/:lat/:lng/:types', emergencyServicesController.getNearbyServices);
+
+//otp
+router.post("/send-otp", authController.sendOTP);
+router.post("/verify-otp", authController.verifyOTP);
 module.exports = router

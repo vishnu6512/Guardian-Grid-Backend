@@ -7,7 +7,7 @@ exports.getVolunteerStatus = async (req, res) => {
         if (!volunteer) {
             return res.status(404).json({ message: 'Volunteer not found' });
         }
-        res.json({ status: volunteer.status, id: volunteer._id }); // Sends back status: "approved" or "declined"
+        res.json({ name: volunteer.name, status: volunteer.status, id: volunteer._id }); // Sends back status: "approved" or "declined"
     } catch (error) {
         res.status(500).json({ error: 'Failed to get volunteer status' });
     }
