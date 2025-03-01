@@ -32,6 +32,10 @@ const afiSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    assignedToName: {
+        type: String,
+        default: ""
+    },
     assignmentNotes: {
         type: String,
         default: ""

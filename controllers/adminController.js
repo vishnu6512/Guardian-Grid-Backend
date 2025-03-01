@@ -24,11 +24,12 @@ const getDashboardStats = async (req, res) => {
 
     //Completed Affected individual requests
     const completedRequests = await afi.find({ status: 'completed' })
-
+    
     //volunteerList
     const volunteerList = await Volunteer.find({ status: 'approved' })
 
-    
+    //afi collection
+    const afiCollection = await afi.find({})
 
 
 
@@ -41,7 +42,8 @@ const getDashboardStats = async (req, res) => {
       pendingApprovals,
       pendingRequests,
       volunteerList,
-      completedRequests
+      completedRequests,
+      afiCollection
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -79,7 +81,7 @@ const rejectVolunteer = async (req, res) => {
 
 // New function to assign volunteer to a request
 const assignVolunteerToRequest = async (req, res) => {
-  const { requestId, volunteerId, notes } = req.body;
+  const { requestId, volunteerId, notes, volunteerName } = req.body;
 
   try {
     // Find the volunteer to get their name
@@ -94,6 +96,7 @@ const assignVolunteerToRequest = async (req, res) => {
       requestId,
       {
         assignedTo: volunteerId,
+        assignedToName: volunteerName,
         status: 'assigned', // Change from 'pending' to 'assigned'
         assignmentNotes: notes // Optional: Store notes about the assignment
       },
@@ -198,6 +201,8 @@ const getNearbyVolunteers = async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve nearby volunteers', details: err.message });
   }
 };
+
+
 
 
 
