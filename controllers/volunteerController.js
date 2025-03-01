@@ -43,7 +43,7 @@ exports.updateAssignmentStatus = async (req, res) => {
         if (!assignment) {
             return res.status(404).json({ message: 'Assignment not found' });
         }
-        if (assignment.status === 'Completed') {
+        if (assignment.status === 'completed') {
             return res.status(400).json({ message: 'Assignment is already completed' });
         }
         assignment.status = status;  // Set status dynamically
