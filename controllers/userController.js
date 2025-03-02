@@ -33,7 +33,9 @@ exports.loginVolunteer = async(req,res)=>{
             const isPasswordMatch=await bcrypt.compare(password,existingVolunteer.password)
             if(isPasswordMatch || password==existingVolunteer.password){
             //token generation
-            const token = jwt.sign({userId:existingVolunteer._id},process.env.JWTPASSWORD)
+            const token = jwt.sign({userId:existingVolunteer._id,role: existingVolunteer.role},process.env.JWTPASSWORD)
+            //console.log(role);
+            
             res.status(200).json({user:existingVolunteer,token})
             }
             
