@@ -1,6 +1,8 @@
 const users = require("../models/userModel");
 const jwt = require('jsonwebtoken')
 const afi = require("../models/requestModel");
+const bcrypt = require('bcrypt')
+
 //register volunteer
 exports.registerVolunteer = async(req,res)=>{
     const {name,email,password,phone,location,lat,lng} = req.body
@@ -9,8 +11,9 @@ exports.registerVolunteer = async(req,res)=>{
         if(existingVolunteer){
             res.status(406).json("already exisiting volunteer.. please login")
         } else {
+            const encryptedPassword = await bcrypt.hash(password,10)
             const newVolunteer= new users({
-                name, email, password, phone, location, role:"volunteer",lat,lng
+                name, email, password:encryptedPassword, phone, location, role:"volunteer",lat,lng
             })
             await newVolunteer.save()
 
@@ -25,11 +28,15 @@ exports.registerVolunteer = async(req,res)=>{
 exports.loginVolunteer = async(req,res)=>{
     const {email,password} = req.body
     try{
-        const existingVolunteer = await users.findOne({email,password})
+        const existingVolunteer = await users.findOne({email})
         if(existingVolunteer){
+            const isPasswordMatch=await bcrypt.compare(password,existingVolunteer.password)
+            if(isPasswordMatch || password==existingVolunteer.password){
             //token generation
             const token = jwt.sign({userId:existingVolunteer._id},process.env.JWTPASSWORD)
             res.status(200).json({user:existingVolunteer,token})
+            }
+            
         } else{
             res.status(401).json("Invalid email or password")
         }
@@ -55,8 +62,7 @@ exports.registerAfi = async(req,res)=>{
 
 
 
-//delte if not working
-//
+
 
 
 
