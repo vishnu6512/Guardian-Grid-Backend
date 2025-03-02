@@ -16,6 +16,12 @@ const getDashboardStats = async (req, res) => {
     // Count pending approvals (volunteers with status 'pending')
     const pendingApprovalsCount = await Volunteer.countDocuments({ status: 'pending' });
 
+    //count assinged request
+    const assignedRequestsCount = await afi.countDocuments({ status: 'assigned' });
+
+    //declined request count
+    const declinedRequestsCount = await afi.countDocuments({ status: 'declined' });
+
     //pending approval details (volunteers with status 'pending')
     const pendingApprovals = await Volunteer.find({ status: 'pending' });
 
@@ -43,7 +49,9 @@ const getDashboardStats = async (req, res) => {
       pendingRequests,
       volunteerList,
       completedRequests,
-      afiCollection
+      afiCollection,
+      assignedRequestsCount,
+      declinedRequestsCount
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
